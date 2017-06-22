@@ -1,1 +1,2 @@
-# Bandit
+# Contextual Bandit
+- LinUCB
