@@ -68,10 +68,6 @@ class ContextualAgent(Agent):
         self.states = None
 
     # FIXME
-    # Agent가 random 하게 get_bandit을 하고, 거기서 나온 bandit의 state을 갖고 있는게 밪음.
-    # 그렇다면 Agent가 bandit manager가 가진 정보인 총 bandit 수, 그리고 해당 bandit의 state을 보유하고 있어야함.
-    # 아니면 여기서 m_bandit을 통해 bandit을 선택하고,
-    # 해당하는 state을 memory에서 받아오기.
     # choose_bandit and get state from memory
     def get_state(self, bandit):
         self.states = bandit.states
@@ -82,8 +78,6 @@ class ContextualAgent(Agent):
             theta_hat = np.dot(A_inv, b)
             x_t = self.states[action]
             self._value_estimates[action] = np.dot(x_t.T, theta_hat)
-            # 사실은 순서가... agent 에서 value estimate을 이미 갖고 있는게.. 맞지 않을까 싶네요..ㅎ
-            # 그렇게 합시다 !
 
     def observe(self, reward):
         self.action_attempts[self.last_action] += 1
