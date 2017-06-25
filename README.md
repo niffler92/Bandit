@@ -7,6 +7,6 @@ Current implementations
 - LinUCB
 
 simulation example:  
-`python setup.py develop`
+`python setup.py develop`  
 `sim1`
 
