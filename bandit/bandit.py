@@ -60,9 +60,6 @@ class MultiBandits(object):
         self.k = bandit.k
 
     def get_bandit(self):
-        # 여러 bandit들 중 어떤 순서로 고를 껀지, 순서대로 고를껀지 랜덤하게 고를껀지 정해야..
-        # self.bandit = self.bandits[np.random.choice(list(self.bandits))]
-        # 아니면 처음에 bandit을 shuffle 한 상태로 add 해주면 됨 !
         self.bandit = self.bandits[self.cursor]
         self.k = self.bandit.k
         self.cursor += 1
