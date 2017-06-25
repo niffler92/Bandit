@@ -7,11 +7,11 @@ from bandit.policy import LinUCBPolicy, RandomPolicy
 from example.sim1_bandit import Patient
 
 
-if __name__ == '__main__':
+def main():
     patients = np.vstack(
-                (np.tile([1, 0, 0], (20,1)),
-                 np.tile([0, 1, 0], (20,1)),
-                 np.tile([1, 0, 1], (20,1))))
+                    (np.tile([1, 0, 0], (20,1)),
+                     np.tile([0, 1, 0], (20,1)),
+                     np.tile([1, 0, 1], (20,1))))
 
     m_bandits = MultiBandits()
     for patient_id, barriers in enumerate(patients):
@@ -62,3 +62,7 @@ if __name__ == '__main__':
     plt.yticks([0.5, 0.6, 0.7, 0.8, 0.9])
     plt.xlabel("Last 50 mean adherence: {}".format(np.mean(average_adh[-50:])))
     plt.show()
+
+
+if __name__ == '__main__':
+    main()
