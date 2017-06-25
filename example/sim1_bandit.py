@@ -15,7 +15,7 @@ class Patient(ContextualBandit):  # Patients keep their context
         self.reset()
 
     def __set_alpha(self, barriers):
-        return np.array([barrier * np.random.normal(0.65, 0.3)  # alpha = 0.3 in the paper
+        return np.array([barrier * np.random.normal(0.65, 0.03)  # alpha = 0.3 in the paper
                          if barrier == 1 else 1 for barrier in barriers])
 
     def __set_adherence(self, alphas):  # We can change this with logit function later.

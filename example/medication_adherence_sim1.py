@@ -19,9 +19,10 @@ if __name__ == '__main__':
         m_bandits.add_bandit(patient)
     np.random.shuffle(m_bandits.bandits)
 
-    alpha = 0.1  # parameter
+    alpha = 2  # parameter
     d = 1
-    episodes = 300
+    episodes = 400
+    initial_exploration = 10
 
     linucb = LinUCBPolicy(alpha, d)
     # randpolicy = RandomPolicy()
@@ -36,8 +37,8 @@ if __name__ == '__main__':
             m_bandits.get_bandit()
             c_agent.get_state(m_bandits.bandit)
     ########RANDOM#######################
-            action = np.random.randint(c_agent.k)
-            c_agent.last_action = action
+            # action = np.random.randint(c_agent.k)
+            # c_agent.last_action = action
     #####################################
 
     ########Tailored#####################
@@ -50,7 +51,7 @@ if __name__ == '__main__':
     ####################################
 
     #########RL############
-            # action = c_agent.choose(random_period=len(m_bandits.bandits)*10)
+            action = c_agent.choose(random_period=len(m_bandits.bandits)*initial_exploration)
     ########################
             reward = m_bandits.pull(action)
             c_agent.observe(reward[0])
