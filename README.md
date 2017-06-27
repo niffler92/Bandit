@@ -33,4 +33,6 @@ Original work reference [bgalbraith](https://github.com/bgalbraith/bandits)
 - [Simple Reinforcement Learning with Tensorflow Part 1.5: Contextual Bandits](https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-1-5-contextual-bandits-bff01d1aad9c)
 
 ## TODO
-- 
+- Thompson Sampling
+- Exp3,4
+
