@@ -9,7 +9,8 @@ Current implementations
 simulation example:  
 ```python  
 python setup.py develop  
-sim1```
+sim1
+```
 
 
 Original work reference [bgalbraith](https://github.com/bgalbraith/bandits)  
