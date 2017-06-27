@@ -7,8 +7,9 @@ Current implementations
 - LinUCB
 
 simulation example:  
-`python setup.py develop`  
-`sim1`
+```python  
+python setup.py develop  
+sim1```
 
 
 Original work reference [bgalbraith](https://github.com/bgalbraith/bandits)  
@@ -31,4 +32,5 @@ Original work reference [bgalbraith](https://github.com/bgalbraith/bandits)
 - [Contextual Bandits and Exp4 algorithm](http://banditalgs.com/2016/10/14/exp4/)
 - [Simple Reinforcement Learning with Tensorflow Part 1.5: Contextual Bandits](https://medium.com/emergent-future/simple-reinforcement-learning-with-tensorflow-part-1-5-contextual-bandits-bff01d1aad9c)
 
-
+## TODO
+- 
