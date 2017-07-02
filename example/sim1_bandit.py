@@ -8,7 +8,7 @@ class Patient(ContextualBandit):  # Patients keep their context
         assert type(barriers) == np.ndarray
         super().__init__(k, d)
         self.patient_id = patient_id
-        self.barriers = barriers
+        self.barriers = barriers.copy()
         self.alphas = self.__set_alpha(self.barriers)
         self.adherence = self.__set_adherence(self.alphas)
         self.memory = {action: np.array([]) for action in range(self.k)}
@@ -25,7 +25,7 @@ class Patient(ContextualBandit):  # Patients keep their context
         self.alphas = self.__set_alpha(self.barriers)
 
         if self.barriers[match]:
-            beta = np.random.normal(loc=0.7, scale=0.3)
+            beta = np.random.normal(loc=0.7, scale=0.03)
             self.alphas[match] += beta * (1.0 - self.alphas[match])
         self.action_values = np.multiply(self.alphas, -1)
         self.adherence = np.prod(self.alphas, axis=0)

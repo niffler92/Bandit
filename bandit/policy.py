@@ -47,7 +47,7 @@ class LinUCBPolicy(UCBPolicy):
             exploration = self.alpha * np.sqrt(np.dot(np.dot(x_t.T, A_inv), x_t))
             ucb = np.append(ucb, agent.value_estimates[action] + exploration)
 
-        ucb += np.random.choice(len(ucb)) * 0.000001  # For tie values
+        ucb[np.random.choice(len(ucb))] += 0.000001  # For tie values
         action = np.argmax(ucb)
 
         return action
