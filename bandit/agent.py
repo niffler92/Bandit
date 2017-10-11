@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Agent(object):
-    def __init__(self, k, policy, prior=0, gamma=None):
+    def __init__(self, k, policy, init_exploration, prior=0, gamma=None):
         self.policy = policy
         self.k = k
         self.prior = prior
@@ -11,6 +11,7 @@ class Agent(object):
         self.action_attempts = np.zeros(self.k)
         self.t = 0
         self.last_action = None
+        self.init_exploration = init_exploration
 
     def reset(self):
         """
@@ -21,8 +22,8 @@ class Agent(object):
         self.last_action = None
         self.t = 0
 
-    def choose(self, random_period):
-        if self.t < random_period:
+    def choose(self):
+        if self.t < self.init_exploration:
             action = np.random.randint(self.k)
         else:
             action = self.policy.choose(self)
@@ -49,14 +50,15 @@ class Agent(object):
 
 class ContextualAgent(Agent):
     """
-    ( for linUCB disjoint model)
+    ( linUCB disjoint model)
     """
 
-    def __init__(self, k, d, policy, prior=0, gamma=None):
-        super().__init__(k, policy, prior, gamma)
+    def __init__(self, k, d, policy, init_exploration, prior=0, gamma=None):
+        super().__init__(k, policy, init_exploration, prior, gamma)
         self.d = d
-        self.memory = {action: {'A': np.identity(self.d), 'b': np.zeros((self.d, 1))} for action in range(self.k)}
-        self.states = None
+        self.memory = {action: {'A': np.identity(self.d),
+                                'b': np.zeros((self.d, 1))} for action in range(self.k)}
+        self.states = np.array([])
         self.reset()
 
     def reset(self):
@@ -64,11 +66,11 @@ class ContextualAgent(Agent):
         self.action_attempts[:] = 0
         self.last_action = None
         self.t = 0
-        self.memory = {action: {'A': np.identity(self.d), 'b': np.zeros((self.d, 1))} for action in range(self.k)}
-        self.states = None
+        self.memory = {action: {'A': np.identity(self.d),
+                                'b': np.zeros((self.d, 1))} for action in range(self.k)}
+        self.states = np.array([])
 
     # FIXME
-    # choose_bandit and get state from memory
     def get_state(self, bandit):
         self.states = bandit.states
         for action, memory in self.memory.items():
@@ -83,9 +85,6 @@ class ContextualAgent(Agent):
         self.action_attempts[self.last_action] += 1
         self.memory[self.last_action]['A'] += np.outer(self.states[self.last_action],
                                                        self.states[self.last_action])
-        if self.memory[self.last_action]['b'].size:
-            self.memory[self.last_action]['b'] += reward * self.states[self.last_action]
-        else:
-            self.memory[self.last_action]['b'] = reward * self.states[self.last_action]
-
+        self.memory[self.last_action]['b'] += reward * self.states[self.last_action].reshape((self.d, 1))
         self.t += 1
+

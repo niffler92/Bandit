@@ -1,3 +1,5 @@
 *.idea
 __pycache__/
 *.egg-info/
+results
+.ipynb_checkpoints
