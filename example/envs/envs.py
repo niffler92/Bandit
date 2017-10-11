@@ -48,7 +48,12 @@ class PatientEnv(MultiBanditEnv):
             average_adh = []
             average_adh.append(np.mean([
                 bandit.adherence for bandit in self.m_bandits.bandits]))
+
             for iteration in range(self.iterations):
+
+                if iteration == self.iterations/2:
+                    self.barrier_change()
+
                 for _ in range(len(self.m_bandits.bandits)):
                     self.m_bandits.get_bandit()
                     agent.get_state(self.m_bandits.bandit)
@@ -65,6 +70,9 @@ class PatientEnv(MultiBanditEnv):
                 # originally bnadit._adherence
 
             self._average_adhs[policy] = average_adh
+
+    def barrier_change(self):
+        pass
 
     def _get_action(self, agent, policy, iteration):
         if policy == 'rl':
@@ -115,8 +123,15 @@ class PatientEnv2(PatientEnv):
         elif policy == 'random':
             return np.random.randint(agent.k)
         elif policy == 'tailored':
-            if episode >= episodes / 2 and 20 <= m_bandits.bandit.patient_id < 40:
+            if iteration >= self.iterations / 2 and 20 <= self.m_bandits.bandit.patient_id < 40:
                 action = 1
             else:
-                action = np.random.choice(np.where(m_bandits.bandit.barriers == 1)[0])
+                action = np.random.choice(np.where(self.m_bandits.bandit.barriers == 1)[0])
             return action
+
+    def barrier_change(self):
+        for bandit in self.m_bandits.bandits:
+            if bandit.barriers[1] == 1:
+                bandit.barriers[1] = 0
+                bandit.barriers[0] = 1
+

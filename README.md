@@ -11,7 +11,7 @@ Change Directory to example/scripts and type `./simulation.sh` in command line.
 ```python  
 ./simulation.sh
 ```
-Experiment can be done by changing arguments and Envs in scripts.py
+Experiment can be done by changing arguments and Envs in scripts.py and envs/envs.py, envs/bandits.py
 
 
 Original work reference [bgalbraith](https://github.com/bgalbraith/bandits)  

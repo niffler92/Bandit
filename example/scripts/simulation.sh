@@ -1,8 +1,8 @@
 SAVEPATH='../results'
 
-for epoch in 10 # 1 3 5
+for epoch in 5 # 1 3 5
     do
-    for alpha in 5 # 1 5 10 15 20
+    for alpha in 1 # 1 5 10 15 20
         do
         python script.py --init_exploration 30 \
             --lookback 5\
