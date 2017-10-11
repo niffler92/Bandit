@@ -7,7 +7,7 @@ class Policy(object):
     """
 
     def choose(self, agent):
-        pass
+        raise NotImplementedError
 
 
 class UCBPolicy(Policy):

@@ -23,8 +23,6 @@ class MultiArmedBandit(object):
 
 class ContextualBandit(MultiArmedBandit):
     """
-    Usually it is normal to have the agent keep the state of each bandit.
-    But in some cases it is easier to have bandit keep their own state.
     Args
         k: number of arms
         d: dimension of state vector given action

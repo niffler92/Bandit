@@ -21,7 +21,7 @@ def main():
 
         alpha = 0.1  # parameter
         k = 3
-        d = 1
+        d = 2
         episodes = 400
         initial_exploration = 10
 
@@ -39,6 +39,13 @@ def main():
         average_adh.append(np.mean([bandit.adherence for bandit in m_bandits.bandits]))
 
         for episode in range(episodes):
+
+            if episode == episodes/2:
+                for bandit in m_bandits.bandits:
+                    if bandit.barriers[1] == 1:
+                        bandit.barriers[1] = 0
+                        bandit.barriers[0] = 1
+
             for _ in range(len(m_bandits.bandits)):
                 m_bandits.get_bandit()
                 c_agent.get_state(m_bandits.bandit)
@@ -47,11 +54,11 @@ def main():
                     c_agent.last_action = action
 
                 if method == 'tailored':
-                    if _ % 3 == 0:
-                        action = np.random.randint(c_agent.k)
+                    if episode >= episodes / 2 and 20 <= m_bandits.bandit.patient_id < 40:
+                        action = 1
                         c_agent.last_action = action
                     else:
-                        action = np.random.choice(np.where(m_bandits.bandit.barriers==1)[0])
+                        action = np.random.choice(np.where(m_bandits.bandit.barriers == 1)[0])
                         c_agent.last_action = action
 
                 if method == 'rl':
@@ -65,8 +72,9 @@ def main():
         adh[method] = average_adh
 
     df = pd.DataFrame(adh)
-    df.plot(title="Average adherence rate of patients", legend=True,
-            yticks=[0.5, 0.6, 0.7, 0.8, 0.9])
+    ax = df.plot(title="Average adherence rate of patients", legend=True,
+                 yticks=[0.5, 0.6, 0.7, 0.8, 0.9])
+    ax.set(xlabel='alpha = {}'.format(alpha))
     plt.show()
 
 

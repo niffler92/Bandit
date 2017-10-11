@@ -5,7 +5,8 @@ import pandas as pd
 from bandit.agent import ContextualAgent
 from bandit.bandit import MultiBandits
 from bandit.policy import LinUCBPolicy, RandomPolicy
-from example.sim1_bandit import Patient
+from example.sim1_bandit_intercept import Patient
+# from example.sim3_bandit import Patient
 
 
 def main():
@@ -21,8 +22,8 @@ def main():
 
         alpha = 0.1  # parameter
         k = 3
-        d = 1
-        episodes = 400
+        d = 2
+        iterations = 400
         initial_exploration = 10
 
         m_bandits = MultiBandits()
@@ -38,9 +39,9 @@ def main():
         average_adh = list()
         average_adh.append(np.mean([bandit.adherence for bandit in m_bandits.bandits]))
 
-        for episode in range(episodes):
+        for iteration in range(iterations):
 
-            if episode == episodes/2:
+            if iteration == iterations/2:
                 for bandit in m_bandits.bandits:
                     if bandit.barriers[1] == 1:
                         bandit.barriers[1] = 0
@@ -54,7 +55,7 @@ def main():
                     c_agent.last_action = action
 
                 if method == 'tailored':
-                    if episode >= episodes / 2 and 20 <= m_bandits.bandit.patient_id < 40:
+                    if iteration >= iterations / 2 and 20 <= m_bandits.bandit.patient_id < 40:
                         action = 1
                         c_agent.last_action = action
                     else:
@@ -65,6 +66,7 @@ def main():
                     action = c_agent.choose(random_period=len(m_bandits.bandits)*initial_exploration)
 
                 reward = m_bandits.pull(action)
+                # print('reward is :::::::::', reward[0])
                 c_agent.observe(reward[0])
 
             average_adh.append(np.mean([bandit.adherence for bandit in m_bandits.bandits]))
@@ -72,10 +74,22 @@ def main():
         adh[method] = average_adh
 
     df = pd.DataFrame(adh)
-    df.plot(title="Average adherence rate of patients", legend=True,
-            yticks=[0.5, 0.6, 0.7, 0.8, 0.9])
-    plt.show()
+    # ax = df.plot(title="Average adherence rate of patients, Intercept", legend=True,
+    #              yticks=[0.5, 0.6, 0.7, 0.8, 0.9])
+    # ax.set(xlabel='alpha = {}'.format(alpha))
+    # plt.show()
+    return df
 
 
 if __name__ == '__main__':
-    main()
+    episodes = 100
+    result = 0
+    for _ in range(episodes):
+        result += main()
+        print(_)
+
+    result /= episodes
+    ax = result.plot(title="Average adherence rate of patients", legend=True,
+                     yticks=[0.5, 0.6, 0.7, 0.8, 0.9])
+    ax.set(xlabel='alpha = {}'.format(0.1))
+    plt.show()

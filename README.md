@@ -7,10 +7,11 @@ Current implementations
 - LinUCB
 
 simulation example:  
+Change Directory to example/scripts and type `./simulation.sh` in command line.  
 ```python  
-python setup.py develop  
-sim1
+./simulation.sh
 ```
+Experiment can be done by changing arguments and Envs in scripts.py
 
 
 Original work reference [bgalbraith](https://github.com/bgalbraith/bandits)  
