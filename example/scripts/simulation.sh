@@ -12,7 +12,7 @@ for epoch in 5 # 1 3 5
             --save_path ${SAVEPATH}\
             --save \
             --no-reshape \
-            --filename alpha${alpha}_epoch${epoch} \
+            --filename alpha${alpha}_epoch${epoch}_ \
             # --interactive
         done
     done
